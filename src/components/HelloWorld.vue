@@ -3,7 +3,7 @@
     <b-table
       striped
       hover
-      :busy="isBusy"
+      :busy.sync="isBusy"
       sticky-header
       :items="Values"
       :fields="fields"
@@ -105,7 +105,7 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      isBusy: false,
+      isBusy: true,
       users: ["rashvand", "mrseif"],
       Values: [],
       sortBy: "classical_rating",
@@ -146,7 +146,7 @@ export default {
   mounted() {
     this.apiCall();
   },
-  created() { },
+  created() {},
   methods: {
     apiCall() {
       this.users.forEach((item) => {
@@ -183,6 +183,7 @@ export default {
             rapid_rd: response.data.perfs.rapid.rd,
             rapid_prog: response.data.perfs.rapid.prog,
           });
+          this.isBusy=false
         });
       });
     },
