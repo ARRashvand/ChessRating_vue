@@ -3,6 +3,7 @@
     <b-table
       striped
       hover
+      :busy="isBusy"
       sticky-header
       :items="Values"
       :fields="fields"
@@ -12,6 +13,16 @@
       :sort-by.sync="sortBy"
       :sort-desc.sync="sortDesc"
     >
+      <template #table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+      <template #cell(index)="data">
+        {{ data.index + 1 }}
+      </template>
+
       <template #cell(username)="data">
         {{ data.item.username }}
       </template>
@@ -48,7 +59,6 @@
           variant="danger"
           rotate="-45"
         ></b-icon>
-
       </template>
       <template #cell(blitz_rating)="data">
         {{ data.item.blitz_rating }}
@@ -65,7 +75,6 @@
           variant="danger"
           rotate="-45"
         ></b-icon>
-
       </template>
       <template #cell(bullet_rating)="data">
         {{ data.item.bullet_rating }}
@@ -96,11 +105,16 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      users: ["rashvand", "HamidrezaBagheri", "mrseif"],
+      isBusy: false,
+      users: ["rashvand", "mrseif"],
       Values: [],
       sortBy: "classical_rating",
       sortDesc: true,
       fields: [
+        {
+          key: "index",
+          label: "index",
+        },
         {
           key: "username",
           label: "username",
@@ -128,10 +142,11 @@ export default {
       ],
     };
   },
-
-  created() {
+  destroyed() {},
+  mounted() {
     this.apiCall();
   },
+  created() { },
   methods: {
     apiCall() {
       this.users.forEach((item) => {
