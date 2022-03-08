@@ -24,7 +24,9 @@
       </template>
 
       <template #cell(username)="data">
-        {{ data.item.username }}
+        <b-link target="_blank" :href="data.item.url">{{
+          data.item.username
+        }}</b-link>
       </template>
 
       <template #cell(classical_rating)="data">
@@ -42,6 +44,18 @@
           variant="danger"
           rotate="-45"
         ></b-icon>
+
+        <span
+          v-if="data.item.classical_prog != 0"
+          class="small"
+          v-bind:style="[
+            data.item.classical_prog > 0
+              ? { color: '#198754' }
+              : { color: '#dc3545' },
+          ]"
+        >
+          {{ data.item.classical_prog }}</span
+        >
       </template>
 
       <template #cell(rapid_rating)="data">
@@ -59,6 +73,18 @@
           variant="danger"
           rotate="-45"
         ></b-icon>
+
+        <span
+          v-if="data.item.rapid_prog != 0"
+          class="small"
+          v-bind:style="[
+            data.item.rapid_prog > 0
+              ? { color: '#198754' }
+              : { color: '#dc3545' },
+          ]"
+        >
+          {{ data.item.rapid_prog }}</span
+        >
       </template>
       <template #cell(blitz_rating)="data">
         {{ data.item.blitz_rating }}
@@ -75,6 +101,18 @@
           variant="danger"
           rotate="-45"
         ></b-icon>
+
+        <span
+          v-if="data.item.blitz_prog != 0"
+          class="small"
+          v-bind:style="[
+            data.item.blitz_prog > 0
+              ? { color: '#198754' }
+              : { color: '#dc3545' },
+          ]"
+        >
+          {{ data.item.blitz_prog }}</span
+        >
       </template>
       <template #cell(bullet_rating)="data">
         {{ data.item.bullet_rating }}
@@ -91,6 +129,18 @@
           variant="danger"
           rotate="-45"
         ></b-icon>
+
+        <span
+          v-if="data.item.bullet_prog != 0"
+          class="small"
+          v-bind:style="[
+            data.item.bullet_prog > 0
+              ? { color: '#198754' }
+              : { color: '#dc3545' },
+          ]"
+        >
+          {{ data.item.bullet_prog }}</span
+        >
       </template>
     </b-table>
   </div>
@@ -106,14 +156,21 @@ export default {
   data() {
     return {
       isBusy: true,
-      users: ["rashvand", "mrseif"],
+      users: [
+        "rashvand",
+        "mahdi5076",
+        "Tavakolian3003",
+        "setareganchess",
+        "MREZA20",
+        "pishevar","RebelJohnny"
+      ],
       Values: [],
       sortBy: "classical_rating",
       sortDesc: true,
       fields: [
         {
           key: "index",
-          label: "index",
+          label: "Rating",
         },
         {
           key: "username",
@@ -142,6 +199,7 @@ export default {
       ],
     };
   },
+  computed: {},
   destroyed() {},
   mounted() {
     this.apiCall();
@@ -183,7 +241,7 @@ export default {
             rapid_rd: response.data.perfs.rapid.rd,
             rapid_prog: response.data.perfs.rapid.prog,
           });
-          this.isBusy=false
+          this.isBusy = false;
         });
       });
     },
